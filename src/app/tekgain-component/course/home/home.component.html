@@ -1,0 +1,110 @@
+<div class="p-3 pt-0">
+    <p-table [columns]="cols" [value]="courses" responsiveLayout="scroll" [scrollable]="true" [rows]="100" #dt1
+        dataKey="id" [rows]="6" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,10,25]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['courseId','courseName','fees','duration','courseType','rating']"
+        styleClass="p-datatable-sm p-datatable-gridlines">
+
+        <ng-template pTemplate="caption">
+            <p-toolbar styleClass="mb-4">
+                <div class="w-full flex justify-content-between">
+                    <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
+                        +</button>
+                    <h2>Course List</h2>
+                    <div>
+                        <input type="text" class="form-input"
+                            (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search keyword" />
+                    </div>
+                </div>
+            </p-toolbar>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th *ngIf="access(['ROLE_ADMIN'])">Action</th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <input class="form-input" type="text"
+                        (input)="dt1.filter($any($event.target)?.value, col.field, 'contains')"
+                        [value]="$any(dt1.filters[col.field])?.value" placeholder='Search by {{col.field}}'>
+                </th>
+                <th *ngIf="access(['ROLE_ADMIN'])"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+                <td *ngIf="access(['ROLE_ADMIN'])">
+                    <button class="btn btn-danger" (click)="editCourse(rowData)">Edit</button>
+                    <button class="btn btn-outlined-danger ml-2" (click)="deleteCourse(rowData)">Delete </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog [(visible)]="courseDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Update Course':'Add Course'"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addCourseForm" class="p-3 pt-0">
+            <div class="my-3">
+                <div>
+                    <label class="mb-3 form-label">Enter Course Name</label>
+                    <input type="text" class="form-input" formControlName="courseName" [readonly]="isEdit" />
+                </div>
+                <div *ngIf="addCourseForm?.get('courseName').invalid && addCourseForm?.get('courseName').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addCourseForm.get('courseName').errors?.['required']"><small>Course Name is
+                            required</small></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Enter Fees</label>
+                    <input type="number" class="form-input" formControlName="fees" [readonly]="isEdit" />
+                </div>
+                <div *ngIf="addCourseForm.get('fees').invalid && addCourseForm.get('fees').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addCourseForm.get('fees').errors?.required"><small>Fees is required</small></div>
+                    <div *ngIf="addCourseForm.get('fees').errors?.min"><small>Fees cannot be negative</small></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Enter Duration</label>
+                    <input type="number" class="form-input" formControlName="duration" />
+                </div>
+                <div *ngIf="addCourseForm.get('duration').invalid && addCourseForm.get('duration').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addCourseForm.get('duration').errors?.required"><small>Duration is required</small>
+                    </div>
+                    <div *ngIf="addCourseForm.get('duration').errors?.min"><small>Duration must be greater than
+                            zero</small></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Enter Course Type</label>
+                    <input class="form-input" formControlName="courseType" [readonly]="isEdit" />
+                </div>
+                <div *ngIf="addCourseForm.get('courseType').invalid && addCourseForm.get('courseType').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addCourseForm.get('courseType').errors?.['required']"><small>Course Type is
+                            required</small></div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button (click)="hideDialog()" class="btn btn-outlined-danger">Cancel</button>
+        <button class="btn btn-black" (click)="addCourse()" [disabled]="!addCourseForm.valid"> {{ isEdit ? 'Update
+            Course':'Save Course'}} </button>
+    </ng-template>
+</p-dialog>

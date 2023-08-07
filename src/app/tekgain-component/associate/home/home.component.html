@@ -1,0 +1,95 @@
+<div class="p-3 pt-0">
+    <p-table [columns]="cols" [value]="associates" responsiveLayout="scroll" [scrollable]="true" [rows]="100" #dt1
+        dataKey="id" [rows]="6" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,10,25]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['associateId','associateName','associateAddress','associateEmailId']"
+        styleClass="p-datatable-sm p-datatable-gridlines">
+
+        <ng-template pTemplate="caption">
+            <p-toolbar styleClass="mb-4">
+                <div class="w-full flex justify-content-between">
+                    <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Associate +</button>
+                    <h2>Associate List</h2>
+                    <div>
+                        <input type="text" class="form-input"
+                            (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search keyword" />
+                    </div>
+                </div>
+            </p-toolbar>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th *ngIf="access(['ROLE_USER'])">Action</th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <input class="form-input" type="text"
+                        (input)="dt1.filter($any($event.target)?.value, col.field, 'contains')"
+                        [value]="$any(dt1.filters[col.field])?.value" placeholder='Search by {{col.field}}'>
+                </th>
+                <th *ngIf="access(['ROLE_USER'])"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+                <td *ngIf="access(['ROLE_USER'])">
+                    <button class="btn btn-danger" (click)="editAssociate(rowData)">Edit</button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog [(visible)]="associateDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Update Associate':'Add Associate'"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addAssociateForm" class="p-3 pt-0">
+            <div class="my-3">
+                <div>
+                    <label class="mb-3 form-label">Enter Associate Name</label>
+                    <input type="text" class="form-input" formControlName="associateName"[readonly]="isEdit" />
+                </div>
+                <div *ngIf="addAssociateForm.get('associateName').invalid && addAssociateForm.get('associateName').touched" class="text-red ml-1">
+                  <div *ngIf="addAssociateForm.get('associateName').errors?.required"><small>Associate Name is required</small></div>
+                  <div *ngIf="addAssociateForm.get('associateName').errors?.pattern"><small>Invalid name. Only letters and spaces are allowed, minimum length is 3</small></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Enter Associate Address</label>
+                    <input class="form-input"  formControlName="associateAddress"  />
+                </div>
+                <div *ngIf="addAssociateForm.get('associateAddress').invalid && addAssociateForm.get('associateAddress').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addAssociateForm.get('associateAddress').errors?.['required']"><small>Associate Address is required</small></div>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Enter Associate EmailId</label>
+                    <input type="text" class="form-input" formControlName="associateEmailId" [readonly]="isEdit"/>
+                </div>
+                <div *ngIf="addAssociateForm.get('associateEmailId').invalid && addAssociateForm.get('associateEmailId').touched" class="text-red ml-1">
+                  <div *ngIf="addAssociateForm.get('associateEmailId').errors?.required"><small>Email is required</small></div>
+                  <div *ngIf="addAssociateForm.get('associateEmailId').errors?.email"><small>Invalid email address</small></div>
+                </div>
+                <div class="text-red ml-1" *ngIf="errorMessage"><small>{{errorMessage}}</small></div>
+            </div>
+
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button (click)="hideDialog()" class="btn btn-outlined-danger">Cancel</button>
+        <button class="btn btn-black" (click)="addAssociate()" [disabled]="!addAssociateForm.valid"> {{ isEdit ? 'Update
+            Associate':'Save Associate'}} </button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,120 @@
+<div class="p-3 pt-0">
+    <p-table [columns]="cols" [value]="admissions" responsiveLayout="scroll" [scrollable]="true" [rows]="100" #dt1
+        dataKey="id" [rows]="6" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,10,25]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['registrationId','courseId','associateId','fees']"
+        styleClass="p-datatable-sm p-datatable-gridlines">
+
+        <ng-template pTemplate="caption">
+            <p-toolbar styleClass="mb-4">
+                <div class="w-full flex justify-content-between">
+                    <button class="btn btn-danger" (click)="openNew()">Add Admission
+                        +</button>
+                    <h2>Admission List</h2>
+                    <div>
+                        <input type="text" class="form-input"
+                            (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search keyword" />
+                    </div>
+                </div>
+            </p-toolbar>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th *ngIf="access(['ROLE_USER'])">Action</th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <input class="form-input" type="text"
+                        (input)="dt1.filter($any($event.target)?.value, col.field, 'contains')"
+                        [value]="$any(dt1.filters[col.field])?.value" placeholder='Search by {{col.field}}'>
+                </th>
+                <th *ngIf="access(['ROLE_USER'])"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+                <td *ngIf="access(['ROLE_USER'])">
+                    <button class="btn btn-danger" (click)="editAdmission(rowData)">Edit</button>
+                    <button class="btn btn-outlined-danger ml-2" (click)="makePaymentAndRedirect(rowData)">Make Payment </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog [(visible)]="admissionDialog" [style]="{width: '450px','height':'450px','overflow':'auto'}"
+    [header]="isEdit ? 'Update Admission':'Add Admission'" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="addAdmissionsForm" class="p-3 pt-0">
+
+            <div class="my-3" *ngIf="!isEdit">
+                <div>
+                    <p-dropdown [options]="associates" class="p-inputtext-sm" optionLabel="associateId"
+                        formControlName="associateId" optionValue="associateId"></p-dropdown>
+                </div>
+                <div *ngIf="addAdmissionsForm?.get('associateId').invalid && addAdmissionsForm?.get('associateId').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addAdmissionsForm.get('associateId').errors?.['required']"><small>Associate Id is
+                            required</small></div>
+                </div>
+            </div>
+
+            <div class="my-3" *ngIf="!isEdit">
+                <div>
+                    <p-dropdown [options]="courses" class="p-inputtext-sm" optionLabel="courseId"
+                        formControlName="courseId" optionValue="courseId"></p-dropdown>
+
+                </div>
+                <div *ngIf="addAdmissionsForm.get('courseId').invalid && addAdmissionsForm.get('courseId').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addAdmissionsForm.get('courseId').errors?.['required']"><small>Course Id is
+                            required</small></div>
+                </div>
+            </div>
+            <div class="my-3" *ngIf="isEdit">
+                <div>
+                    <label  class="form-label">Course Id</label>
+                    <input class="form-input" formControlName="courseId" [readonly]="true" />
+                </div>
+            </div>
+
+            <div class="my-3" *ngIf="isEdit">
+                <div>
+                    <label class="form-label">Enter Feedback</label>
+                    <input type="text" class="form-input" formControlName="feedback" />
+                </div>
+                <div *ngIf="addAdmissionsForm.get('feedback').invalid && addAdmissionsForm.get('feedback').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="addAdmissionsForm.get('feedback').errors?.['required']"><small>Feedback is
+                            required</small></div>
+                </div>
+            </div>
+            <div class="my-3" *ngIf="isEdit">
+                <div>
+                  <label class="form-label">Enter Rating</label>
+                  <input type="text" class="form-input" type="number" formControlName="rating" />
+                </div>
+                <div *ngIf="addAdmissionsForm.get('rating').invalid && addAdmissionsForm.get('rating').touched" class="text-red ml-1">
+                  <div *ngIf="addAdmissionsForm.get('rating').errors?.required"><small>Rating is required</small></div>
+                  <div *ngIf="addAdmissionsForm.get('rating').errors?.min || addAdmissionsForm.get('rating').errors?.max">
+                    <small>Rating must be between 1 and 5</small>
+                  </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button (click)="hideDialog()" class="btn btn-outlined-danger">Cancel</button>
+        <button class="btn btn-black" (click)="addAdmissions()" [disabled]="!addAdmissionsForm.valid"> {{ isEdit ?
+            'Update
+            Admission':'Save Admission'}} </button>
+    </ng-template>
+</p-dialog>

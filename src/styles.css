@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;700&display=swap');
+@import "primeng/resources/primeng.css";
+@import '~primeicons/primeicons.css';
+/* @import '~primeng/resources/themes/rhea/theme.css'; */
+@import '~primeng/resources/themes/lara-light-purple/theme.css';
+/* @import '~primeng/resources/themes/nova/theme.css'; */
+@import '~primeng/resources/primeng.min.css';
+@import '~primeflex/themes/primeone-light.css';
+@import '~primeflex/primeflex.css';
+
+
+/* color codes:  #007ee5
+  #7b8994
+  #47525d
+  #3d464d */
+
+  :root {
+    --text-color: #183153;
+    --white-color: #fff;
+    --orange-light-color:#bfca02;
+    --font-mulish: "Mulish", sans-serif;
+    --red-color: #11862f;
+    --box-shadow-input: 0 0 0 0.012rem rgb(85 5 127);
+    --btn-black-color: #832561;
+    --box-shadow-input-focus: 0 0 0 0.11rem #832561;
+    --box-shadow-danger-btn-focus: 0 0 0 0.11rem var(--orange-light-color);
+    --box-shadow-danger-outlined-btn-focus: 0 0 0 0.11rem var(--red-color);
+  }
+*,
+*::before,
+*::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 1rem;
+    font-weight: 400;
+    background-color: #f0f1f3;
+    font-family: 'Mulish', sans-serif !important;
+    color: #183153;
+}
+
+.form-input {
+    border-radius: 2px;
+    padding: 0.45em 1em;
+    border: 1px solid transparent;
+    box-shadow: var(--box-shadow-input) !important;
+    transition: all 0.2s ease-out;
+    font-family: var(--font-mulish);
+    width: 100%;
+}
+
+.form-input:focus-visible,
+.form-input:focus {
+    outline: 0;
+    box-shadow: var(--box-shadow-input-focus) !important;
+}
+.form-label{
+  font-size: 0.875rem !important;
+  font-weight: 600;
+}
+
+input:-internal-autofill-selected {
+    background-color: var(--white-color) !important;
+}
+input.ng-invalid.ng-touched {
+  box-shadow: var(--box-shadow-danger-btn-focus) !important;
+  border: 1px solid transparent;
+}
+
+.btn {
+    padding: 0.45rem 1em;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: var(--font-mulish);
+    color: var(--text-color);
+  }
+  
+  button[disabled],input[disabled],input[readonly] {
+    cursor: not-allowed;
+  }
+  .input[disabled],input[readonly]{
+    background-color: #f5f3ff !important;
+  }
+  .btn-danger {
+    border: 1px solid var( --orange-light-color);
+    background-color: var(--white-color);
+    color: var( --text-color);
+  }
+  .btn-danger:focus {
+    box-shadow: var(--box-shadow-danger-btn-focus) !important;
+    border: 1px solid transparent;
+  }
+
+  .btn-black {
+    border: 1px solid var(--btn-black-color);
+    color: var(--white-color);
+    background-color: var(--btn-black-color);
+  }
+
+  .btn-black:hover {
+    border: 1px solid var(--btn-black-color);
+    background-color: var(--white-color);
+    color: var(--btn-black-color);
+  }
+  .btn-black:focus {
+    box-shadow: var(--box-shadow-input-focus) !important;
+    border: 1px solid transparent;
+  }
+  .btn-outlined-danger{
+    color: var(--btn-black-color);
+    background-color: var(--white-color);
+    border: 1px solid var(--red-color);
+  }
+  .btn-outlined-danger:focus {
+    box-shadow: var(--box-shadow-danger-outlined-btn-focus) !important;
+    border: 1px solid transparent;
+  }
+
+  .text-red{
+    color: var(--red-color);
+  }
+
+.p-datatable .p-datatable-header,.p-datatable-wrapper,.p-datatable.p-datatable-gridlines .p-paginator-bottom,.p-paginator .p-paginator-pages .p-paginator-page,.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+  font-family: var(--font-mulish) !important;
+  font-size: 0.875rem !important;
+  color: var(--text-color) !important;
+}
+/* .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  padding: 0.25rem 0.72845rem !important;
+} */
+
+.p-paginator .p-paginator-pages .p-paginator-page ,.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+  min-width: 2rem;
+  height: 2rem;
+}
+.p-paginator .p-dropdown {
+  height: 2.357rem !important;
+}
+
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator.p-highlight button {
+  background-color: var(--btn-black-color) !important;
+}
+
+

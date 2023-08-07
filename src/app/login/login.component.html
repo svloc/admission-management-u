@@ -1,0 +1,99 @@
+<div class="h-screen flex justify-content-between align-items-center p-2">
+    <div class="w-6 h-full bg-white">
+        <img [src]="isLogin ? '../assets/images/login-img.svg' : '../assets/images/sign-up.svg'" alt="{{ isLogin ? 'login-img' : 'sign-up-img' }}" class="h-full w-full" />
+      </div>      
+    <div class="w-6 flex justify-content-center align-content-center">
+        <div class="login-card bg-white p-4 pt-0">
+            <div class="text-center" *ngIf="isLogin">
+                <img src="../assets/images/Rocket.svg" alt="rocket svg" class="rocket-img" />
+            </div>
+            <form [formGroup]="loginForm" *ngIf="isLogin">
+                <strong>
+                    <h2 class="text-center pb-2">Login</h2>
+                </strong>
+                <hr />
+                <p class="my-3 text-center">Please enter your credentials below to login.
+                </p>
+                <div class="my-3">
+                    <input type="text" class="form-input" placeholder="Enter Your Username"
+                        formControlName="username" />
+                    <div *ngIf="loginForm.get('username').invalid && loginForm.get('username').touched"
+                        class="text-red ml-1">
+                        <div *ngIf="loginForm.get('username').errors?.required"><small>Username is required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <input type="password" class="form-input" placeholder="Enter Your Password"
+                        formControlName="password" />
+                    <div *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched"
+                        class="text-red ml-1">
+                        <div *ngIf="loginForm.get('password').errors?.required"><small>Password is required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3 text-center">
+                    <button class="btn btn-black" type="submit" (click)="loginRequest()"
+                        [disabled]="!loginForm.valid">Login</button>
+                </div>
+                <div class="my-3 text-center">
+                    <p>Don't have an account?
+                        <span class="underline cursor-pointer" (click)="toggleStatus()">Register here</span>
+                    </p>
+                </div>
+            </form>
+            <form [formGroup]="signupForm" *ngIf="!isLogin">
+                <strong>
+                    <h2 class="text-center pb-2 pt-4">Register</h2>
+                </strong>
+                <hr />
+                <p class="my-3 text-center">Please enter your information to register</p>
+                <div class="my-3">
+                    <input type="text" class="form-input" placeholder="Enter Your Full Name" formControlName="associateName" />
+                    <div *ngIf="signupForm.get('associateName').invalid && signupForm.get('associateName').touched" class="text-red ml-1">
+                      <div *ngIf="signupForm.get('associateName').errors?.required"><small>Name is required</small></div>
+                      <div *ngIf="signupForm.get('associateName').errors?.pattern"><small>Invalid name. Only letters and spaces are allowed, minimum length is 3</small></div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <input type="email" class="form-input" placeholder="Enter Your Email Id" formControlName="associateEmailId" />
+                    <div *ngIf="signupForm.get('associateEmailId').invalid && signupForm.get('associateEmailId').touched" class="text-red ml-1">
+                      <div *ngIf="signupForm.get('associateEmailId').errors?.required"><small>Email is required</small></div>
+                      <div *ngIf="signupForm.get('associateEmailId').errors?.email"><small>Invalid email address</small></div>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <input type="email" class="form-input" placeholder="Enter Your Address"
+                        formControlName="associateAddress" />
+                    <div *ngIf="signupForm.get('associateAddress').invalid && signupForm.get('associateAddress').touched"
+                        class="text-red ml-1">
+                        <div *ngIf="signupForm.get('associateAddress').errors?.required"><small>Address is
+                                required</small></div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <input type="text" class="form-input" placeholder="Your Username" formControlName="username" [readonly]="true"  />
+                </div>
+                <div class="my-3">
+                    <input type="password" class="form-input" placeholder="Enter Your Password" formControlName="password" />
+                    <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="text-red ml-1">
+                      <div *ngIf="signupForm.get('password').errors?.required"><small>Password is required</small></div>
+                      <div *ngIf="signupForm.get('password').errors?.pattern"><small>Password must be at least 8 characters long and contain at least one special character and one number</small></div>
+                    </div>
+                </div>
+                <div class="my-3 text-center">
+                    <button class="btn btn-black" type="submit" (click)="signupRequest()"
+                        [disabled]="!signupForm.valid">Register
+                    </button>
+                </div>
+                <div class="my-3 text-center">
+                    <p>Already a user?
+                        <span class="underline cursor-pointer" (click)="toggleStatus()">Login here</span>
+                    </p>
+                </div>
+            </form>
+            <h5 class="text-center">Developed By © Sachin Lokare</h5>
+        </div>
+    </div>
+</div>

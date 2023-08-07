@@ -1,0 +1,80 @@
+<div class="fixed w-full flex h-4rem align-items-center justify-content-between px-3 bg-white topbar-box-shadow z-5">
+    <h2 routerLink="/dashboard" class="cursor-pointer">TekGain</h2>
+    <div class="flex justify-content-between w-20rem">
+        <span class="underline cursor-pointer padding-route" routerLink="/dashboard/associate"
+            routerLinkActive="active-route"><strong>Associate</strong></span>
+        <span class="underline cursor-pointer padding-route" routerLink="/dashboard/course"
+            routerLinkActive="active-route"><strong>Course</strong></span>
+        <span class="underline cursor-pointer padding-route" routerLink="/dashboard/admission"
+            routerLinkActive="active-route"><strong>Admission</strong></span>
+    </div>
+    <div>
+        <button class="btn btn-danger" (click)="logout()">Logout</button>
+    </div>
+</div>
+
+<div class="relative top-4rem container mb-5" *ngIf="isDashboardRoute()">
+    <div class="pt-5 bg-white">
+        <p-carousel [value]="products" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1" [circular]="true"
+            [autoplayInterval]="4000">
+            <ng-template let-product pTemplate="item">
+                <div class="product-item">
+                    <div class="product-item-content">
+                        <div class="mb-3">
+                            <img src="../../../assets/images/{{product.image}}" class="product-image" />
+                        </div>
+                        <div class="text-center">
+                            <h4 class="mb-1">{{product.title}}</h4>
+                            <h6 class="mt-0 mb-3">{{product.description}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+
+    <div class="my-8">
+        <h2 class="text-center mb-5">Welcome To TekGain</h2>
+        <div class="flex justify-content-center w-10 m-auto">
+            <div class="w-6 align-self-center">
+                <h2>About us</h2>
+                <br />
+                <p class="line-space">At TekGain, we are dedicated to providing top-tier training and education in the
+                    latest
+                    technologies.
+                    With a
+                    strong focus on innovation and skill development, we empower individuals and organizations to
+                    thrive in
+                    today's dynamic digital landscape. Our mission is to equip you with the knowledge and expertise
+                    needed
+                    to
+                    excel and succeed in the ever-evolving world of technology.</p>
+            </div>
+            <div class="w-6">
+                <img src="../../../assets/images/team_spirit.svg" class="product-image" />
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="my-5">
+        <h2 class="text-center mb-5">Our Platform Features</h2>
+        <div class="flex justify-content-between w-full flex-wrap gap-4 my-3">
+            <div class="card w-24rem flex justify-content-between gap-3 p-4 border-round-lg bg-white cursor-pointer"
+                *ngFor="let feature of features">
+                <div class="align-self-center">
+                    <img src="../../../assets/images/{{feature.image}}" class="card-img" />
+                </div>
+                <div>
+                    <h4>{{feature.title}}</h4>
+                    <br />
+                    <p>{{feature.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="relative top-4rem container bg-white">
+    <router-outlet></router-outlet>
+</div>

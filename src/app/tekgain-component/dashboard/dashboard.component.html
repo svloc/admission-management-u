@@ -1,5 +1,5 @@
 <div class="fixed w-full flex h-4rem align-items-center justify-content-between px-3 bg-white topbar-box-shadow z-5">
-    <h2 routerLink="/dashboard" class="cursor-pointer">TekGain</h2>
+    <h2 routerLink="/dashboard" class="cursor-pointer ml-6">TekGain</h2>
     <div class="flex justify-content-between w-20rem">
         <span class="underline cursor-pointer padding-route" routerLink="/dashboard/associate"
             routerLinkActive="active-route"><strong>Associate</strong></span>
@@ -8,8 +8,8 @@
         <span class="underline cursor-pointer padding-route" routerLink="/dashboard/admission"
             routerLinkActive="active-route"><strong>Admission</strong></span>
     </div>
-    <div>
-        <button class="btn btn-danger" (click)="logout()">Logout</button>
+    <div class="mr-6">
+        <p-splitButton  icon="pi pi-user" styleClass="p-button-text p-button-rounded p-button-outlined" [model]="menuItems"></p-splitButton>
     </div>
 </div>
 
@@ -78,3 +78,40 @@
 <div class="relative top-4rem container bg-white">
     <router-outlet></router-outlet>
 </div>
+
+
+
+
+<p-dialog [(visible)]="passwordDialog" [style]="{width: '450px'}" header="Change Password" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="changePasswordForm" class="p-3 pt-0">
+            <div class="my-3">
+                <div>
+                    <label class="mb-3 form-label">Enter New Password</label>
+                    <input type="password" class="form-input" formControlName="password"/>
+                </div>
+                <div *ngIf="changePasswordForm?.get('password').invalid && changePasswordForm?.get('password').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="changePasswordForm.get('password').errors?.['required']"><small>Password is required</small></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div>
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" formControlName="confirmPassword"/>
+                </div>
+                <div *ngIf="changePasswordForm.get('confirmPassword').invalid && changePasswordForm.get('confirmPassword').touched"
+                    class="text-red ml-1">
+                    <div *ngIf="changePasswordForm.get('confirmPassword').errors?.required"><small>Confirm Password is required</small></div>
+                </div>
+                <div *ngIf="changePasswordForm.hasError('passwordMismatch')" class="text-red ml-1">
+                    <small>Passwords do not match</small>
+                </div>                
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button (click)="hideDialog()" class="btn btn-outlined-danger">Cancel</button>
+        <button class="btn btn-black" (click)="changePassword()" [disabled]="!changePasswordForm.valid"> Update Password</button>
+    </ng-template>
+</p-dialog>

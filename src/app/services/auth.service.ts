@@ -22,4 +22,8 @@ export class AuthService {
   addUser(user: User): Observable<Object> {
     return this.http.post(`${this.api_auth}/registration`, user);
   }
+
+  changePassword(password:string,id:string): Observable<any> {
+    return this.http.put(this.api_auth + `/change-password/${id}`, {password:password});
+  }
 }

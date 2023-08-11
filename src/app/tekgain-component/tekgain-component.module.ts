@@ -13,7 +13,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {DropdownModule} from 'primeng/dropdown';
 import {CarouselModule} from 'primeng/carousel';
 import {ChartModule} from 'primeng/chart';
-
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { MenuItem } from 'primeng/api';
 @NgModule({
   declarations: [
     DashboardComponent
@@ -30,7 +31,8 @@ import {ChartModule} from 'primeng/chart';
     ConfirmDialogModule,
     DropdownModule,
     CarouselModule,
-    ChartModule
+    ChartModule,
+    SplitButtonModule
   ]
 })
 export class TekgainComponentModule { }

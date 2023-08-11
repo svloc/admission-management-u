@@ -1,15 +1,19 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
- 
+  passwordDialog: boolean;
   ngOnInit() {
-    
+    this.formSetup();
   }
 
 
@@ -109,10 +113,63 @@ export class DashboardComponent implements OnInit {
       description: 'Learn at your own pace through our easy to navigate Responsive Website.'
     }
   ];
-  
-  constructor(private router: Router, private activeRoute: ActivatedRoute) {
-    this.isDashboardRoute();
+
+  menuItems: any[];
+  public changePasswordForm: FormGroup;
+  associateId: string = '';
+  formSetup() {
+    this.changePasswordForm = this.formBuilder.group({
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
+    }, { validator: passwordMatchValidator });
   }
+
+  changePassword():void{
+    if (this.changePasswordForm.valid) {
+      this.authService.changePassword(this.changePasswordForm.value.password,this.associateId).subscribe((suc) => {
+        if (suc) {
+          Swal.fire('Password Changes Success','success');
+          this.changePasswordForm.reset();
+          this.hideDialog();
+        } else {
+          Swal.fire('Oops', "suc.message", 'error');
+        }
+      },
+        (err) => {
+          if (err.status == 401) {
+            Swal.fire('Oops', "Invalid username/Password", 'error');
+          } else {
+            Swal.fire('Oops', 'Something went wrong', 'error');
+          }
+        }
+      );
+    }
+  }
+
+  
+  
+  constructor(private router: Router, private activeRoute: ActivatedRoute,private authService:AuthService, private formBuilder: FormBuilder) {
+    this.isDashboardRoute();
+    this.associateId = localStorage.getItem('associateId');
+    this.menuItems = [
+      {
+        label: 'Logout',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          this.logout();
+        }
+      },
+      {
+        label: 'Change Password',
+        icon: 'pi pi-key',
+        command: () => {
+          this.openNew();
+        }
+      }
+    ];
+  }
+
+
   logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('isLoggedIn');
@@ -124,6 +181,24 @@ export class DashboardComponent implements OnInit {
     return this.activeRoute.snapshot.data.isDashboard === true;
   }
 
+  openNew() {
+    this.passwordDialog = true;
+  }
+  hideDialog() {
+    this.changePasswordForm.reset();
+    this.passwordDialog = false;
+  }
+
 
 }
 
+function passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+
+  if (password.value !== confirmPassword.value) {
+    return { 'passwordMismatch': true };
+  }
+
+  return null;
+}

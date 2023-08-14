@@ -1,12 +1,25 @@
 .content-height {
-    height: calc(100vh - 4rem) !important;
+  height: calc(100vh - 4rem) !important;
 }
-.top-65{
- top: 64px;
+.top-65 {
+  top: 64px;
 }
-.top-95{
-    top: 94px;
+.top-95 {
+  top: 94px;
 }
-.top-135{
-    top: 135px;
+.top-135 {
+  top: 135px;
+}
+
+.icon-img {
+  border: 1px solid;
+  padding: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.active-icon {
+  background-color: var(--orange-light-color);
+  color: var(--white-color);
+  border: 1px solid var(--orange-light-color);
 }

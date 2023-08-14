@@ -142,6 +142,9 @@ export class HomeComponent implements OnInit {
     this.isEdit = false;
   }
 
+  access(roles: string[]) {
+    return roles.some((x) => x == this.currentUser);
+  }
   addAdmissions() {
     if (!this.isEdit) {
       if (this.addAdmissionsForm.valid) {
@@ -152,16 +155,31 @@ export class HomeComponent implements OnInit {
           )
           .subscribe(
             (suc) => {
-              Swal.fire('Registration Successfully', 'success');
+              Swal.fire({
+                title: 'Success',
+                text: 'Registration successful!',
+                icon: 'success',
+                confirmButtonColor: '#832561',
+              });
               this.hideDialog();
               this.addAdmissionsForm.reset();
               this.viewAll();
             },
             (err) => {
               if (err) {
-                Swal.fire(err);
+                Swal.fire({
+                  title: 'Error',
+                  text: err.error,
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
               } else {
-                Swal.fire('Oops', 'Something went wrong', 'error');
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Oops, something went wrong',
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
               }
             }
           );
@@ -176,16 +194,31 @@ export class HomeComponent implements OnInit {
           )
           .subscribe(
             (suc) => {
-              Swal.fire('Admissions Updated Successfully');
+              Swal.fire({
+                title: 'Success',
+                text: 'Admissions updated successfully!',
+                icon: 'success',
+                confirmButtonColor: '#832561',
+              });
               this.addAdmissionsForm.reset();
               this.hideDialog();
               this.viewAll();
             },
             (err) => {
               if (err) {
-                Swal.fire(err);
+                Swal.fire({
+                  title: 'Error',
+                  text: err.error,
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
               } else {
-                Swal.fire('Oops', 'Something went wrong', 'error');
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Oops, something went wrong',
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
               }
             }
           );
@@ -193,18 +226,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  access(roles: string[]) {
-    return roles.some((x) => x == this.currentUser);
-  }
-
   makePaymentAndRedirect(col: any) {
-    const { registrationId,fees } = col;
+    const { registrationId, fees } = col;
     if (fees === 0) {
       Swal.fire('Already Paid', 'You have already paid the fees.', 'info');
       return;
     }
     Swal.fire({
-      title: 'Your Fees: '+fees,
+      title: 'Your Fees: ' + fees,
       showCancelButton: true,
       confirmButtonText: 'Make Payment',
       allowOutsideClick: () => !Swal.isLoading(),

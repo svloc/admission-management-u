@@ -1,4 +1,24 @@
-<div class="p-3 pt-0">
+<p-toolbar styleClass="mb-4">
+    <div class="w-full flex justify-content-between">
+        <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
+            +</button>
+        <h2>Course List</h2>
+        <div class="flex justify-content-between align-items-center gap-5">
+            <!-- <input type="text" class="form-input"
+                (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search keyword" /> -->
+            <div class="flex gap-2">
+                <i class="pi pi-list icon-img" [ngClass]="{'active-icon': isTableView}"
+                    style="font-size: 1.5rem" (click)="switchToTableView()"></i>
+                <i class="pi pi-th-large icon-img" [ngClass]="{'active-icon': !isTableView}"
+                    style="font-size: 1.5rem" (click)="switchToCardListView()"></i>
+            </div>
+
+        </div>
+    </div>
+</p-toolbar>
+
+<div class="p-3 pt-0" *ngIf="isTableView">
     <p-table [columns]="cols" [value]="courses" responsiveLayout="scroll" [scrollable]="true" [rows]="100" #dt1
         dataKey="id" [rows]="6" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,10,25]" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -6,18 +26,7 @@
         styleClass="p-datatable-sm p-datatable-gridlines">
 
         <ng-template pTemplate="caption">
-            <p-toolbar styleClass="mb-4">
-                <div class="w-full flex justify-content-between">
-                    <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
-                        +</button>
-                    <h2>Course List</h2>
-                    <div>
-                        <input type="text" class="form-input"
-                            (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
-                            placeholder="Search keyword" />
-                    </div>
-                </div>
-            </p-toolbar>
+            
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
@@ -47,6 +56,35 @@
             </tr>
         </ng-template>
     </p-table>
+</div>
+
+<div class="p-3" *ngIf="!isTableView">
+    <div className="flex car-main justify-content-center mb-5">
+        <div className="card-1 border-round-md" *ngFor="let col of courses">
+            <div className="card-header">
+                <h2>{{col.courseName}}</h2>
+                <p>{{col.courseType}}</p>
+            </div>
+            <div className="card-body">
+                <div className="flex justify-content-between">
+                    <p className="w-3">Rating</p>
+                    <!-- <p className="w-9">
+                        {[...Array(col.rating)].map((_, index) => (
+                        <img src="../../../../assets/images/starFilled.png" alt="star" height='20' width='20' />
+                        ))}
+                    </p> -->
+                </div>
+                <div className="flex align-items-center justify-content-between">
+                    <p>Price</p>
+                    <p className="w-3">₹{{col.fees}}</p>
+                    <p className='cursor-pointer'>
+                        <img src="../../../../assets/images/starFilled.png" alt='edit' width='25' />
+                        <img src="../../../../assets/images/starFilled.png" alt='delete' width='25' />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

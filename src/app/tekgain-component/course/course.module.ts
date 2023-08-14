@@ -9,10 +9,13 @@ import {ToolbarModule} from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { CardComponent } from './card/card.component';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     ToolbarModule,
     ButtonModule,
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SplitButtonModule
   ]
 })
 export class CourseModule { }

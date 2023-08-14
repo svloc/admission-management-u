@@ -8,10 +8,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private courseService: CourseService, private _Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private courseService: CourseService,
+    private _Activatedroute: ActivatedRoute,
+    private formBuilder: FormBuilder
+  ) {
     this.currentUser = localStorage.getItem('roles');
   }
   currentUser: string = '';
@@ -31,10 +35,18 @@ export class HomeComponent implements OnInit {
       { field: 'fees', header: 'Fees' },
       { field: 'duration', header: 'Duration' },
       { field: 'courseType', header: 'Course Type' },
-      { field: 'rating', header: 'Rating' }
+      { field: 'rating', header: 'Rating' },
     ];
   }
+  isTableView: boolean = true;
 
+  switchToTableView() {
+    this.isTableView = true;
+  }
+
+  switchToCardListView() {
+    this.isTableView = false;
+  }
   viewAll(): void {
     this.courseService.viewAllCourses().subscribe(
       (res) => {
@@ -53,7 +65,7 @@ export class HomeComponent implements OnInit {
       fees: [0, [Validators.required, Validators.min(0)]],
       duration: [0, [Validators.required, Validators.min(1)]],
       courseType: ['', Validators.required],
-      rating: []
+      rating: [],
     });
   }
 
@@ -77,77 +89,123 @@ export class HomeComponent implements OnInit {
 
   deleteCourse(courseObj: Course) {
     Swal.fire({
-      position:'top',
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: '#832561',
+      cancelButtonColor: '#11862f',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel', // Added cancel button text
     }).then((result) => {
       if (result.isConfirmed) {
         this.courseService.disableCourse(courseObj.courseId).subscribe(
           (suc) => {
-            Swal.fire(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your Course has been deleted.',
+              icon: 'success',
+              confirmButtonColor: '#832561',
+            });
             this.viewAll();
           },
           (error) => {
-            Swal.fire(
-              'No admissions found for the given course ID.',
-              'error'
-            )
+            Swal.fire({
+              title: 'Error',
+              text: 'No admissions found for the given course ID.',
+              icon: 'error',
+              confirmButtonColor: '#832561',
+            });
           }
-        )
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Handle the cancel action
+        Swal.fire({
+          title: 'Cancelled',
+          text: 'Course deletion was cancelled.',
+          icon: 'error',
+          confirmButtonColor: '#832561',
+        });
       }
-    })
+    });
   }
 
   addCourse() {
     if (!this.isEdit) {
       if (this.addCourseForm.valid) {
-        this.courseService.addCourse(this.addCourseForm.value).subscribe((suc) => {
-          Swal.fire('Course Added Successfully', 'success');
-          this.hideDialog();
-          this.addCourseForm.reset();
-          this.viewAll();
-        },
+        this.courseService.addCourse(this.addCourseForm.value).subscribe(
+          (suc) => {
+            Swal.fire({
+              title: 'Success',
+              text: 'Course added successfully!',
+              icon: 'success',
+              confirmButtonColor: '#832561',
+            });
+            this.hideDialog();
+            this.addCourseForm.reset();
+            this.viewAll();
+          },
           (err) => {
             if (err) {
-              Swal.fire(err);
+              Swal.fire({
+                title: 'Error',
+                text: err.error,
+                icon: 'error',
+                confirmButtonColor: '#832561',
+              });
             } else {
-              Swal.fire('Oops', 'Something went wrong', 'error');
+              Swal.fire({
+                title: 'Error',
+                text: 'Oops, something went wrong',
+                icon: 'error',
+                confirmButtonColor: '#832561',
+              });
             }
           }
         );
-
       }
     } else {
       if (this.addCourseForm.valid) {
-        this.courseService.updateCourse(this.addCourseForm.value.courseId, this.addCourseForm.value.duration).subscribe((suc) => {
-          Swal.fire('Course Updated Successfully');
-          this.addCourseForm.reset();
-          this.hideDialog();
-          this.viewAll();
-        },
-          (err) => {
-            if (err) {
-              Swal.fire(err);
-            } else {
-              Swal.fire('Oops', 'Something went wrong', 'error');
+        this.courseService
+          .updateCourse(
+            this.addCourseForm.value.courseId,
+            this.addCourseForm.value.duration
+          )
+          .subscribe(
+            (suc) => {
+              Swal.fire({
+                title: 'Success',
+                text: 'Course updated successfully!',
+                icon: 'success',
+                confirmButtonColor: '#832561',
+              });
+              this.addCourseForm.reset();
+              this.hideDialog();
+              this.viewAll();
+            },
+            (err) => {
+              if (err) {
+                Swal.fire({
+                  title: 'Error',
+                  text: err.error,
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Oops, something went wrong',
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
+              }
             }
-          }
-        );
-
+          );
       }
-
     }
   }
+  
   access(roles: string[]) {
-    return roles.some(x => x == this.currentUser);
+    return roles.some((x) => x == this.currentUser);
   }
 }

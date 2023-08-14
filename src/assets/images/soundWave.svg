@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsSvgjs="http://svgjs.com/svgjs" width="320" height="185" preserveAspectRatio="none" viewBox="0 0 320 185">
+    <g mask="url(&quot;#SvgjsMask1023&quot;)" fill="none">
+        <rect width="320" height="185" x="0" y="0" fill="rgba(24, 49, 83, 1)"></rect>
+        <g transform="translate(0, 0)" stroke-linecap="round" stroke="url(#SvgjsLinearGradient1024)">
+            <path d="M64 69.08 L64 115.92" stroke-width="9"></path>
+            <path d="M76 74.08 L76 110.92" stroke-width="9"></path>
+            <path d="M88 49.13 L88 135.88" stroke-width="9"></path>
+            <path d="M100 45.94 L100 139.06" stroke-width="9"></path>
+            <path d="M112 71.43 L112 113.57" stroke-width="9"></path>
+            <path d="M124 66.4 L124 118.6" stroke-width="9"></path>
+            <path d="M136 42.96 L136 142.04" stroke-width="9"></path>
+            <path d="M148 39.99 L148 145.01" stroke-width="9"></path>
+            <path d="M160 75.93 L160 109.07" stroke-width="9"></path>
+            <path d="M172 54.14 L172 130.86" stroke-width="9"></path>
+            <path d="M184 68.89 L184 116.11" stroke-width="9"></path>
+            <path d="M196 53.03 L196 131.97" stroke-width="9"></path>
+            <path d="M208 59.23 L208 125.78" stroke-width="9"></path>
+            <path d="M220 57.01 L220 128" stroke-width="9"></path>
+            <path d="M232 80.2 L232 104.8" stroke-width="9"></path>
+            <path d="M244 62.22 L244 122.78" stroke-width="9"></path>
+            <path d="M256 49.49 L256 135.51" stroke-width="9"></path>
+        </g>
+    </g>
+    <defs>
+        <mask id="SvgjsMask1023">
+            <rect width="320" height="185" fill="#ffffff"></rect>
+        </mask>
+        <linearGradient x1="54.400000000000006" y1="92.5" x2="265.6" y2="92.5" gradientUnits="userSpaceOnUse" id="SvgjsLinearGradient1024">
+            <stop stop-color="#3a7cc3" offset="0"></stop>
+            <stop stop-color="#dd1133" offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>

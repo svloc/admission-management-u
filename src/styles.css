@@ -86,12 +86,12 @@ input.ng-invalid.ng-touched {
   .input[disabled],input[readonly]{
     background-color: #f5f3ff !important;
   }
-  .btn-danger {
+  .btn-danger,.p-button {
     border: 1px solid var( --orange-light-color);
     background-color: var(--white-color);
     color: var( --text-color);
   }
-  .btn-danger:focus {
+  .btn-danger:focus,.p-button:focus {
     box-shadow: var(--box-shadow-danger-btn-focus) !important;
     border: 1px solid transparent;
   }
@@ -111,16 +111,33 @@ input.ng-invalid.ng-touched {
     box-shadow: var(--box-shadow-input-focus) !important;
     border: 1px solid transparent;
   }
-  .btn-outlined-danger{
-    color: var(--btn-black-color);
-    background-color: var(--white-color);
-    border: 1px solid var(--red-color);
+  .btn-outlined-danger {
+    color: var(--btn-black-color) !important;
+    background-color: var(--white-color) !important;
+    border: 1px solid var(--red-color) !important;
   }
+
   .btn-outlined-danger:focus {
     box-shadow: var(--box-shadow-danger-outlined-btn-focus) !important;
     border: 1px solid transparent;
   }
 
+
+  .padding-route,.p-button {
+    padding: 0.45rem 1em !important;
+  }
+  
+  .active-route,
+  .padding-route:hover,.p-button:hover {
+    padding: 0.45rem 1em !important;
+    background:var( --orange-light-color)!important;
+    color: var(--white-color) !important;
+    transition: 0.5s !important;
+    text-decoration: none !important;
+  }
+  .p-button:hover{
+    border: 1px solid var( --orange-light-color) !important;
+  }
   .text-red{
     color: var(--red-color);
   }

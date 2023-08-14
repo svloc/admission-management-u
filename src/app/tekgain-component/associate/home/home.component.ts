@@ -7,10 +7,14 @@ import { AssociateService } from 'src/app/services/associate.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private associateService: AssociateService, private _Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private associateService: AssociateService,
+    private _Activatedroute: ActivatedRoute,
+    private formBuilder: FormBuilder
+  ) {
     this.currentUser = localStorage.getItem('roles');
     this.associateId = localStorage.getItem('associateId');
   }
@@ -35,7 +39,7 @@ export class HomeComponent implements OnInit {
       { field: 'associateId', header: 'Id' },
       { field: 'associateName', header: 'Name' },
       { field: 'associateAddress', header: 'Address' },
-      { field: 'associateEmailId', header: 'EmailId' }
+      { field: 'associateEmailId', header: 'EmailId' },
     ];
   }
   viewAll(): void {
@@ -62,10 +66,13 @@ export class HomeComponent implements OnInit {
   formSetup() {
     this.addAssociateForm = this.formBuilder.group({
       associateId: [''],
-      associateName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{3,}$')]],
+      associateName: [
+        '',
+        [Validators.required, Validators.pattern('^[A-Za-z ]{3,}$')],
+      ],
       associateAddress: ['', Validators.required],
-      associateEmailId: ['', [Validators.required, Validators.email]]
-    })
+      associateEmailId: ['', [Validators.required, Validators.email]],
+    });
   }
 
   openNew() {
@@ -84,57 +91,81 @@ export class HomeComponent implements OnInit {
     this.addAssociateForm.reset();
     this.associateDialog = false;
     this.isEdit = false;
-    this.errorMessage='';
+    this.errorMessage = '';
   }
 
   addAssociate() {
     if (!this.isEdit) {
       if (this.addAssociateForm.valid) {
         const emailId = this.addAssociateForm.value.associateEmailId;
-        const exists = this.associates.some(associate => associate.associateEmailId === emailId);
+        const exists = this.associates.some(
+          (associate) => associate.associateEmailId === emailId
+        );
         if (exists) {
-          console.log('Associate EmailID already exists');
           this.errorMessage = 'Associate ID already exists';
         } else {
-          this.associateService.addAssociate(this.addAssociateForm.value).subscribe((suc) => {
-            Swal.fire('Associate Added Successfully', 'success');
-            this.hideDialog();
-            this.addAssociateForm.reset();
-            this.viewAll();
-          },
-            (err) => {
-              console.log(err.error);
-              this.errorMessage = err.error;
-            }
-          );
+          this.associateService
+            .addAssociate(this.addAssociateForm.value)
+            .subscribe(
+              (suc) => {
+                Swal.fire({
+                  title: 'Success',
+                  text: 'Associate added successfully!',
+                  icon: 'success',
+                  confirmButtonColor: '#832561',
+                });
+                this.hideDialog();
+                this.addAssociateForm.reset();
+                this.viewAll();
+              },
+              (err) => {
+                this.errorMessage = err.error;
+              }
+            );
         }
-
       }
     } else {
       if (this.addAssociateForm.valid) {
-        this.associateService.updateAssociate(this.addAssociateForm.value.associateId, this.addAssociateForm.value.associateAddress).subscribe((suc) => {
-          Swal.fire('Associate Updated Successfully');
-          this.addAssociateForm.reset();
-          this.hideDialog();
-          this.viewAll();
-        },
-          (err) => {
-            if (err) {
-              Swal.fire(err);
-            } else {
-              Swal.fire('Oops', 'Something went wrong', 'error');
+        this.associateService
+          .updateAssociate(
+            this.addAssociateForm.value.associateId,
+            this.addAssociateForm.value.associateAddress
+          )
+          .subscribe(
+            (suc) => {
+              Swal.fire({
+                title: 'Success',
+                text: 'Associate updated successfully!',
+                icon: 'success',
+                confirmButtonColor: '#832561',
+              });
+              this.addAssociateForm.reset();
+              this.hideDialog();
+              this.viewAll();
+            },
+            (err) => {
+              if (err) {
+                Swal.fire({
+                  title: 'Error',
+                  text: err.error,
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Oops, something went wrong',
+                  icon: 'error',
+                  confirmButtonColor: '#832561',
+                });
+              }
             }
-          }
-        );
-
+          );
       }
-
     }
   }
 
   access(roles: string[]) {
-    return roles.some(x => x == this.currentUser);
+    return roles.some((x) => x == this.currentUser);
   }
-
-
 }

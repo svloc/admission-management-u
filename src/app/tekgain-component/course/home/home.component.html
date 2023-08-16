@@ -58,33 +58,39 @@
     </p-table>
 </div>
 
-<div class="p-3" *ngIf="!isTableView">
-    <div className="flex car-main justify-content-center mb-5">
-        <div className="card-1 border-round-md" *ngFor="let col of courses">
-            <div className="card-header">
-                <h2>{{col.courseName}}</h2>
-                <p>{{col.courseType}}</p>
+<div class="flex car-main justify-content-center mb-5" *ngIf="!isTableView">
+    <ng-container *ngFor="let item of courses; let cardID = index">
+        <div class="card-1 border-round-md">
+            <div class="card-header" [ngStyle]="{'background-image': 'url(../../../../assets/images/' + bgImages[cardID % bgImages.length] + ')'}"> 
+                <h2>{{ item.courseName }}</h2>
+                <p>{{ item.courseType }}</p>
             </div>
-            <div className="card-body">
-                <div className="flex justify-content-between">
-                    <p className="w-3">Rating</p>
-                    <!-- <p className="w-9">
-                        {[...Array(col.rating)].map((_, index) => (
-                        <img src="../../../../assets/images/starFilled.png" alt="star" height='20' width='20' />
-                        ))}
-                    </p> -->
+            <div class="card-body">
+                <div class="flex justify-content-between">
+                    <p class="w-3">Rating</p>
+                    <p class="w-9">
+                        <!-- <ng-container *ngFor="let _ of Array(item.stars); let index = index">
+                            <img src="{{ starFilled }}" alt="{{ item.stars }}" height="20" width="20" />
+                        </ng-container> -->
+                    </p>
                 </div>
-                <div className="flex align-items-center justify-content-between">
+                <div class="flex align-items-center justify-content-between">
                     <p>Price</p>
-                    <p className="w-3">₹{{col.fees}}</p>
-                    <p className='cursor-pointer'>
-                        <img src="../../../../assets/images/starFilled.png" alt='edit' width='25' />
-                        <img src="../../../../assets/images/starFilled.png" alt='delete' width='25' />
+                    <p class="w-3">₹{{ item.fees }}</p>
+                    <p class="cursor-pointer">
+                        <!-- <p-tooltip position="top" title="Edit Course">
+                            <img src="{{ editIcon }}" (click)="onEditClick()" alt="edit" width="25" />
+                        </p-tooltip>
+                        <p-tooltip position="top" title="Delete Course">
+                            <img src="{{ deleteIcon }}" (click)="onDeleteClick()" alt="delete" width="25"
+                                class="border-round-sm border-black-alpha-20 border-black-alpha-20 ml-2 border-1" />
+                        </p-tooltip> -->
+                        <!-- <img src="../../../../assets/images/imagename"/> -->
                     </p>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>
 
 

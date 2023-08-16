@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit {
   public addCourseForm: FormGroup;
   isEdit: boolean = false;
 
+  bgImages: string[] = ["Hexagon.svg", "massCircles.svg", "waveLine.svg", "soundWave.svg", "opticalFiber.svg", "stockChart.svg","circuitBoard.svg",];
+
   ngOnInit() {
     this.formSetup();
     this.viewAll();

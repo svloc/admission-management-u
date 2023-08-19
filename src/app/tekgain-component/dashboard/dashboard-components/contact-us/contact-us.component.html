@@ -1,0 +1,38 @@
+<div class="grid grid-nogutter surface-section text-800">
+    <div class="w-6 p-6 align-self-end">
+        <section>
+            <form [formGroup]="contactForm">
+                <div class="my-3">
+                    <input type="text" class="form-input" placeholder="Enter Your Name" formControlName="name" />
+                    <div *ngIf="contactForm.get('name').invalid && contactForm.get('name').touched" class="text-red ml-1">
+                        <div *ngIf="contactForm.get('name').errors?.required"><small>Name is required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <input class="form-input" placeholder="Enter Your Email" formControlName="email" />
+                    <div *ngIf="contactForm.get('email').invalid && contactForm.get('email').touched" class="text-red ml-1">
+                        <div *ngIf="contactForm.get('email').errors?.required"><small>Email is required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <textarea formControlName="message" class="form-input" placeholder="Enter Your Message" cols="30"
+                        rows="10"></textarea>
+                    <div *ngIf="contactForm.get('message').invalid && contactForm.get('message').touched"
+                        class="text-red ml-1">
+                        <div *ngIf="contactForm.get('message').errors?.required"><small>Message is required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3 text-center">
+                    <button class="btn btn-black" (click)="contactRequest()" [disabled]="!contactForm.valid" type="submit">Send</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-12 md:col-6 overflow-hidden">
+        <img src="../../../../../assets/images/undraw_contact_us_re_4qqt.svg" alt="Image"
+            class="md:ml-auto block md:h-full" style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)">
+    </div>
+</div>

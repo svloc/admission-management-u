@@ -15,9 +15,11 @@ import {CarouselModule} from 'primeng/carousel';
 import {ChartModule} from 'primeng/chart';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuItem } from 'primeng/api';
+import { ContactUsComponent } from './dashboard/dashboard-components/contact-us/contact-us.component';
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    ContactUsComponent
   ],
   imports: [
     CommonModule,

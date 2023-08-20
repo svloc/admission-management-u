@@ -9,7 +9,8 @@
             routerLinkActive="active-route"><strong>Admission</strong></span>
     </div>
     <div class="mr-6">
-        <p-splitButton  icon="pi pi-user" styleClass="p-button-text p-button-rounded p-button-outlined" [model]="menuItems"></p-splitButton>
+        <p-splitButton icon="pi pi-user" styleClass="p-button-text p-button-rounded p-button-outlined"
+            [model]="menuItems"></p-splitButton>
     </div>
 </div>
 
@@ -34,7 +35,7 @@
     </div>
 
     <div class="my-8">
-        <h2 class="text-center mb-5">Welcome To TekGain</h2>
+        <h2 class="text-center mb-5 text-4xl text-primary font-bold">Welcome To TekGain</h2>
         <div class="flex justify-content-center w-10 m-auto">
             <div class="w-6 align-self-center">
                 <h2>About us</h2>
@@ -57,7 +58,7 @@
     </div>
     <hr />
     <div class="my-5">
-        <h2 class="text-center mb-5">Our Platform Features</h2>
+        <h2 class="text-center mb-5 text-4xl text-primary font-bold">Our Platform Features</h2>
         <div class="flex justify-content-between w-full flex-wrap gap-4 my-3">
             <div class="card w-24rem flex justify-content-between gap-3 p-4 border-round-lg bg-white cursor-pointer"
                 *ngFor="let feature of features">
@@ -72,6 +73,10 @@
             </div>
         </div>
     </div>
+    <div class="my-5">
+        <h2 class="text-center mb-5 text-4xl text-primary font-bold">Contact Us</h2>
+        <app-contact-us></app-contact-us>
+    </div>
 
 </div>
 
@@ -80,36 +85,40 @@
 </div>
 
 
-<p-dialog [(visible)]="passwordDialog" [style]="{width: '450px'}" header="Change Password" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="passwordDialog" [style]="{width: '450px'}" header="Change Password" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="content">
         <form [formGroup]="changePasswordForm" class="p-3 pt-0">
             <div class="my-3">
                 <div>
                     <label class="mb-3 form-label">Enter New Password</label>
-                    <input type="password" class="form-input" formControlName="password"/>
+                    <input type="password" class="form-input" formControlName="password" />
                 </div>
                 <div *ngIf="changePasswordForm?.get('password').invalid && changePasswordForm?.get('password').touched"
                     class="text-red ml-1">
-                    <div *ngIf="changePasswordForm.get('password').errors?.['required']"><small>Password is required</small></div>
+                    <div *ngIf="changePasswordForm.get('password').errors?.['required']"><small>Password is
+                            required</small></div>
                 </div>
             </div>
             <div class="my-3">
                 <div>
                     <label class="form-label">Confirm Password</label>
-                    <input type="password" class="form-input" formControlName="confirmPassword"/>
+                    <input type="password" class="form-input" formControlName="confirmPassword" />
                 </div>
                 <div *ngIf="changePasswordForm.get('confirmPassword').invalid && changePasswordForm.get('confirmPassword').touched"
                     class="text-red ml-1">
-                    <div *ngIf="changePasswordForm.get('confirmPassword').errors?.required"><small>Confirm Password is required</small></div>
+                    <div *ngIf="changePasswordForm.get('confirmPassword').errors?.required"><small>Confirm Password is
+                            required</small></div>
                 </div>
                 <div *ngIf="changePasswordForm.hasError('passwordMismatch')" class="text-red ml-1">
                     <small>Passwords do not match</small>
-                </div>                
+                </div>
             </div>
         </form>
     </ng-template>
     <ng-template pTemplate="footer">
         <button (click)="hideDialog()" class="btn btn-outlined-danger">Cancel</button>
-        <button class="btn btn-black" (click)="changePassword()" [disabled]="!changePasswordForm.valid"> Update Password</button>
+        <button class="btn btn-black" (click)="changePassword()" [disabled]="!changePasswordForm.valid"> Update
+            Password</button>
     </ng-template>
 </p-dialog>

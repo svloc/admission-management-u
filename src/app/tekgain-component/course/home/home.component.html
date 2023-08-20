@@ -1,23 +1,3 @@
-<p-toolbar styleClass="mb-4">
-    <div class="w-full flex justify-content-between">
-        <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
-            +</button>
-        <h2>Course List</h2>
-        <div class="flex justify-content-between align-items-center gap-5">
-            <!-- <input type="text" class="form-input"
-                (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
-                placeholder="Search keyword" /> -->
-            <div class="flex gap-2">
-                <i class="pi pi-list icon-img" [ngClass]="{'active-icon': isTableView}"
-                    style="font-size: 1.5rem" (click)="switchToTableView()"></i>
-                <i class="pi pi-th-large icon-img" [ngClass]="{'active-icon': !isTableView}"
-                    style="font-size: 1.5rem" (click)="switchToCardListView()"></i>
-            </div>
-
-        </div>
-    </div>
-</p-toolbar>
-
 <div class="p-3 pt-0" *ngIf="isTableView">
     <p-table [columns]="cols" [value]="courses" responsiveLayout="scroll" [scrollable]="true" [rows]="100" #dt1
         dataKey="id" [rows]="6" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,10,25]" [paginator]="true"
@@ -26,7 +6,24 @@
         styleClass="p-datatable-sm p-datatable-gridlines">
 
         <ng-template pTemplate="caption">
-            
+            <p-toolbar styleClass="mb-4">
+                <div class="w-full flex justify-content-between">
+                    <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
+                        +</button>
+                    <h2>Course List</h2>
+                    <div class="flex justify-content-between align-items-center gap-5">
+                        <input type="text" class="form-input"
+                            (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search keyword" />
+                        <div class="flex gap-2">
+                            <i class="pi pi-list icon-img" [ngClass]="{'active-icon': isTableView}"
+                                style="font-size: 1.5rem" (click)="switchToTableView()"></i>
+                            <i class="pi pi-th-large icon-img" [ngClass]="{'active-icon': !isTableView}"
+                                style="font-size: 1.5rem" (click)="switchToCardListView()"></i>
+                        </div>
+                    </div>
+                </div>
+            </p-toolbar>
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
@@ -58,40 +55,64 @@
     </p-table>
 </div>
 
-<div class="flex car-main justify-content-center mb-5" *ngIf="!isTableView">
-    <ng-container *ngFor="let item of courses; let cardID = index">
-        <div class="card-1 border-round-md">
-            <div class="card-header" [ngStyle]="{'background-image': 'url(../../../../assets/images/' + bgImages[cardID % bgImages.length] + ')'}"> 
-                <h2>{{ item.courseName }}</h2>
-                <p>{{ item.courseType }}</p>
-            </div>
-            <div class="card-body">
-                <div class="flex justify-content-between">
-                    <p class="w-3">Rating</p>
-                    <p class="w-9">
-                        <!-- <ng-container *ngFor="let _ of Array(item.stars); let index = index">
-                            <img src="{{ starFilled }}" alt="{{ item.stars }}" height="20" width="20" />
-                        </ng-container> -->
-                    </p>
+
+<p-table *ngIf="!isTableView" [value]="courses" #dt1 dataKey="id" id="cardTable"
+    [globalFilterFields]="['courseId','courseName','fees','duration','courseType','rating']">
+    <ng-template pTemplate="caption">
+        <p-toolbar styleClass="mb-4">
+            <div class="w-full flex justify-content-between">
+                <button class="btn btn-danger" (click)="openNew()" *ngIf="access(['ROLE_ADMIN'])">Add Course
+                    +</button>
+                <h2>Course List</h2>
+                <div class="flex justify-content-between align-items-center gap-5">
+                    <input type="text" class="form-input"
+                        (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Search keyword" />
+                    <div class="flex gap-2">
+                        <i class="pi pi-list icon-img" [ngClass]="{'active-icon': isTableView}"
+                            style="font-size: 1.5rem" (click)="switchToTableView()"></i>
+                        <i class="pi pi-th-large icon-img" [ngClass]="{'active-icon': !isTableView}"
+                            style="font-size: 1.5rem" (click)="switchToCardListView()"></i>
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-between">
-                    <p>Price</p>
-                    <p class="w-3">₹{{ item.fees }}</p>
-                    <p class="cursor-pointer">
-                        <!-- <p-tooltip position="top" title="Edit Course">
+            </div>
+        </p-toolbar>
+    </ng-template>
+    <ng-template pTemplate="body" let-item  let-rowIndex="rowIndex">
+        <tbody  [ngClass]="{'p-datatable-tbody':true}">
+            <div class="card-1 border-round-md">
+                <!-- <p>{{i}}</p> -->
+                <div class="card-header"
+                     [ngStyle]="{'background-image': 'url(../../../../assets/images/' + bgImages[rowIndex % bgImages.length] + ')'}">
+                    <h2>{{ item.courseName }}</h2>
+                    <p>{{ item.courseType }}</p>
+                </div>
+                <div class="card-body">
+                    <div class="flex justify-content-between mb-3">
+                        <p class="w-3">Rating</p>
+                        <p class="w-9">
+                            <p-rating [ngModel]="item.rating" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
+                        </p>
+                    </div>
+                    <div class="flex align-items-center justify-content-between">
+                        <p>Price</p>
+                        <p class="w-3">₹{{ item.fees }}</p>
+                        <p class="cursor-pointer">
+                            <!-- <p-tooltip position="top" title="Edit Course">
                             <img src="{{ editIcon }}" (click)="onEditClick()" alt="edit" width="25" />
                         </p-tooltip>
                         <p-tooltip position="top" title="Delete Course">
                             <img src="{{ deleteIcon }}" (click)="onDeleteClick()" alt="delete" width="25"
                                 class="border-round-sm border-black-alpha-20 border-black-alpha-20 ml-2 border-1" />
                         </p-tooltip> -->
-                        <!-- <img src="../../../../assets/images/imagename"/> -->
-                    </p>
+                            <!-- <img src="../../../../assets/images/imagename"/> -->
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </ng-container>
-</div>
+        </tbody>
+    </ng-template>
+</p-table>
 
 
 <p-dialog [(visible)]="courseDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Update Course':'Add Course'"

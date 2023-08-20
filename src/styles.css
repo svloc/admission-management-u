@@ -164,4 +164,20 @@ input.ng-invalid.ng-touched {
   background-color: var(--btn-black-color) !important;
 }
 
+.p-rating .p-rating-icon.pi-star-fill {
+  color: var(--orange-light-color);
+}
 
+#cardTable .p-datatable-tbody{
+  /* Your custom styles for the tbody element */
+  flex-wrap: wrap !important;
+  display: flex !important;
+  grid-gap: 2rem !important;
+  gap: 2rem !important;
+  justify-content: center !important;
+}
+
+#cardTable .p-datatable-header{
+  position:sticky !important;
+  top: 56px !important;
+}

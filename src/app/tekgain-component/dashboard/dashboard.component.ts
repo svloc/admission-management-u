@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
         'Forge ahead into the future with technology as your compass. Embrace innovation, and explore the endless horizons of learning and growth.',
     },
   ];
+
   features = [
     {
       image: 'World-Class-Faculty.png',
@@ -132,10 +133,11 @@ export class DashboardComponent implements OnInit {
         'Learn at your own pace through our easy to navigate Responsive Website.',
     },
   ];
-
+  
   menuItems: any[];
   public changePasswordForm: FormGroup;
   associateId: string = '';
+  currentUser: string = '';
   formSetup() {
     this.changePasswordForm = this.formBuilder.group(
       {
@@ -200,6 +202,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder
   ) {
+    this.currentUser = localStorage.getItem('roles');
     this.isDashboardRoute();
     this.associateId = localStorage.getItem('associateId');
     this.menuItems = [
@@ -240,6 +243,8 @@ export class DashboardComponent implements OnInit {
         });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('roles')
+        localStorage.removeItem('associateId')
         this.router.navigate(['/']);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Added handling for cancel action
@@ -260,9 +265,14 @@ export class DashboardComponent implements OnInit {
   openNew() {
     this.passwordDialog = true;
   }
+  
   hideDialog() {
     this.changePasswordForm.reset();
     this.passwordDialog = false;
+  }
+
+  access(roles: string[]) {
+    return roles.some((x) => x == this.currentUser);
   }
 }
 

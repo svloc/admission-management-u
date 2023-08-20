@@ -173,12 +173,13 @@ input.ng-invalid.ng-touched {
   /* Your custom styles for the tbody element */
   flex-wrap: wrap !important;
   display: flex !important;
-  grid-gap: 2rem !important;
-  gap: 2rem !important;
+  grid-gap: 1.5rem !important;
+  gap: 1.5rem !important;
   justify-content: center !important;
 }
 
 #cardTable .p-datatable-header{
   position:sticky !important;
-  top: 56px !important;
+  top: 64px !important;
+  border: 0 !important;
 }

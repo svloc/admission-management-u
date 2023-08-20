@@ -23,6 +23,15 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loadLoginForm();
     this.loadSignupForm();
+    // this.checkedLogin();
+  }
+
+  checkedLogin(): void {
+    this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigate(['/dashboard']);
+      }
+    });
   }
 
   loadLoginForm(): void {
@@ -83,7 +92,12 @@ export class LoginComponent implements OnInit {
               icon: 'success',
               confirmButtonColor: '#832561',
             });
+
             this.loginForm.reset();
+            this.authService.setLoggedInStatus(true);
+            this.authService.setAccessToken(suc.accessToken);
+            this.authService.setRoles(suc.roles);
+            this.authService.setAssociateId(suc.associateId);
             localStorage.setItem('accessToken', suc.accessToken);
             localStorage.setItem('isLoggedIn', JSON.stringify(true));
             localStorage.setItem('roles', suc.roles);
@@ -117,6 +131,7 @@ export class LoginComponent implements OnInit {
       );
     }
   }
+
   signupRequest() {
     if (this.signupForm.valid && !this.isLogin) {
       this.authService.addUser(this.signupForm.value).subscribe(

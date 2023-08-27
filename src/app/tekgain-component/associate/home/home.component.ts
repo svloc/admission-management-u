@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private associateService: AssociateService,
     private _Activatedroute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     this.currentUser = localStorage.getItem('roles');
     this.associateId = localStorage.getItem('associateId');

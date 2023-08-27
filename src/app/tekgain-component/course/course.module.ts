@@ -11,6 +11,7 @@ import {DialogModule} from 'primeng/dialog';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { CardComponent } from './card/card.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import {RatingModule} from 'primeng/rating';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
     ButtonModule,
     DialogModule,
     ConfirmDialogModule,
-    SplitButtonModule
+    SplitButtonModule,
+    RatingModule
   ]
 })
 export class CourseModule { }

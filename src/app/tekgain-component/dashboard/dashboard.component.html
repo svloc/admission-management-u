@@ -15,6 +15,9 @@
 </div>
 
 <div class="relative top-4rem container mb-5" *ngIf="isDashboardRoute()">
+    <div *ngIf="access(['ROLE_ADMIN'])">
+        <app-dashboard-card></app-dashboard-card>
+    </div>
     <div class="pt-5 bg-white">
         <p-carousel [value]="products" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1" [circular]="true"
             [autoplayInterval]="4000">
@@ -33,6 +36,8 @@
             </ng-template>
         </p-carousel>
     </div>
+
+  
 
     <div class="my-8">
         <h2 class="text-center mb-5 text-4xl text-primary font-bold">Welcome To TekGain</h2>
@@ -73,7 +78,7 @@
             </div>
         </div>
     </div>
-    <div class="my-5">
+    <div class="my-5" *ngIf="access(['ROLE_USER'])">
         <h2 class="text-center mb-5 text-4xl text-primary font-bold">Contact Us</h2>
         <app-contact-us></app-contact-us>
     </div>

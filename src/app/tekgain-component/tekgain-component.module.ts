@@ -16,10 +16,12 @@ import {ChartModule} from 'primeng/chart';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuItem } from 'primeng/api';
 import { ContactUsComponent } from './dashboard/dashboard-components/contact-us/contact-us.component';
+import { DashboardCardComponent } from './dashboard/dashboard-components/dashboard-card/dashboard-card.component';
 @NgModule({
   declarations: [
     DashboardComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    DashboardCardComponent
   ],
   imports: [
     CommonModule,
